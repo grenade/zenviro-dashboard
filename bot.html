@@ -1,0 +1,30 @@
+<div class="row">
+    <img src="./img/ninja.png" alt="Ninja Bot." style="float: left; margin-right: 20px;"/>
+    <div>
+        <h2>Bot Monitor</h2>
+        <h3 ng-show="isAlive()">Bot is probably alive...</h3>
+        <h3 ng-hide="isAlive()">Bot may not be alive...</h3>
+    </div>
+</div>
+<div class="row">
+    <div id="botConsole" class="img-rounded" style="background-color: black; padding: 4px; font-size: smaller; overflow-y: scroll; -webkit-overflow-scrolling: touch; height: {{botConsoleHeight}}px;">
+        <div ng-repeat="message in messages">
+            <span style="color: gray;" ng-show="message.severity == 'Debug'">
+                <i class="fa fa-info"></i>
+                {{message.source}}: {{message.message}}
+            </span>
+            <span style="color: greenyellow;" ng-show="message.severity == 'Information'">
+                <i class="fa fa-info"></i>
+                {{message.source}}: {{message.message}}
+            </span>
+            <span style="color: yellow;" ng-show="message.severity == 'Warning'">
+                <i class="fa fa-warning"></i>
+                {{message.source}}: {{message.message}}
+            </span>
+            <span style="color: red;" ng-show="message.severity == 'Error'">
+                <i class="fa fa-warning"></i>
+                {{message.source}}: {{message.message}}
+            </span>
+        </div>
+    </div>
+</div>

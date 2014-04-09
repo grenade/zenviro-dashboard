@@ -1,0 +1,356 @@
+﻿<div class="row">
+    <div ng-controller="appController">
+        <h2>{{app_name}}</h2>
+        <div class="img-rounded" style="border: 1px solid #ccc; padding: 20px 20px 0 20px; margin-bottom: 20px;" ng-repeat="app in apps">
+            <h3><i class="fa fa-laptop" style="color: black"></i> {{app.Host.Name}}.{{app.Host.Domain}} ({{app.Environment}})</h3>
+            <div style="margin-bottom: 10px;"><code>{{app.MainAssembly.Path}}</code></div>
+            <div class="img-rounded" style="border: 1px solid #ccc; padding: 20px 20px 0 20px; margin-bottom: 20px;" ng-show="app.Website">
+                <h4>
+                    <i class="fa fa-list-alt"></i>
+                    Website
+                </h4>
+                <table class="table table-condensed table-hover">
+                    <tr>
+                        <th>
+                            Id
+                        </th>
+                        <th>
+                            Name
+                        </th>
+                        <th>
+                            URL
+                        </th>
+                        <th>
+                            App Pool
+                        </th>
+                        <th>
+                            Pipeline Mode
+                        </th>
+                        <th>
+                            Runtime Version
+                        </th>
+                        <th>
+                            Identity
+                        </th>
+                    </tr>
+                    <tr>
+                        <td>
+                            {{app.Website.Id}}
+                        </td>
+                        <td>
+                            {{app.Website.Name}}
+                        </td>
+                        <td>
+                            <a href="{{app.Url}}" target="_blank">{{app.Url}}</a>
+                        </td>
+                        <td>
+                            {{app.Website.ApplicationPools[0].Name}}
+                        </td>
+                        <td>
+                            {{app.Website.ApplicationPools[0].PipelineMode}}
+                        </td>
+                        <td>
+                            {{app.Website.ApplicationPools[0].RuntimeVersion}}
+                        </td>
+                        <td>
+                            {{app.Website.ApplicationPools[0].Username}}
+                        </td>
+                    </tr>
+                </table>
+            </div>
+
+            <div class="img-rounded" style="border: 1px solid #ccc; padding: 20px 20px 0 20px; margin-bottom: 20px;" ng-show="app.WindowsService">
+                <h4>
+                    <i class="fa fa-cog"></i>
+                    Windows Service
+                </h4>
+                <table class="table table-condensed table-hover">
+                    <tr>
+                        <th>
+                            Name
+                        </th>
+                        <th>
+                            Display Name
+                        </th>
+                        <th>
+                            State
+                        </th>
+                        <th>
+                            Start Mode
+                        </th>
+                        <th>
+                            Identity
+                        </th>
+                    </tr>
+                    <tr>
+                        <td>
+                            {{app.WindowsService.Name}}
+                        </td>
+                        <td>
+                            {{app.WindowsService.DisplayName}}
+                        </td>
+                        <td>
+                            {{app.WindowsService.State}}
+                        </td>
+                        <td>
+                            {{app.WindowsService.StartMode}}
+                        </td>
+                        <td>
+                            {{app.WindowsService.Username}}
+                        </td>
+                    </tr>
+                </table>
+            </div>
+
+            <div class="img-rounded" style="border: 1px solid #ccc; padding: 20px 20px 0 20px; margin-bottom: 20px;">
+                <h4>Assemblies</h4>
+                <table class="table table-condensed table-hover">
+                    <thead>
+                        <tr>
+                            <th>
+                                <i class="fa fa-cog"></i>
+                                Main Assembly
+                            </th>
+                            <th>Version
+                            </th>
+                            <th style="white-space: nowrap;">
+                                File Version
+                            </th>
+                            <th style="white-space: nowrap;">
+                                Product Version
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <a class="tooltip-link" title="{{app.MainAssembly.CompanyName}} / {{app.MainAssembly.ProductName}}">{{app.MainAssembly.Name}}</a>
+                            </td>
+                            <td>
+                                {{app.MainAssembly.Version.AssemblyVersion.Major}}.{{app.MainAssembly.Version.AssemblyVersion.Minor}}.{{app.MainAssembly.Version.AssemblyVersion.Build}}.{{app.MainAssembly.Version.AssemblyVersion.Revision}}
+                            </td>
+                            <td>
+                                {{app.MainAssembly.Version.FileVersion}}
+                            </td>
+                            <td>
+                                {{app.MainAssembly.Version.ProductVersion | limitTo: 25}}
+                            </td>
+                        </tr>
+                    </tbody>
+                    <tbody ng-show="app.Dependencies[0]">
+                        <tr>
+                            <th>
+                                <i class="fa fa-cogs"></i>
+                                Dependencies
+                            </th>
+                            <th>
+                                Version
+                            </th>
+                            <th style="white-space: nowrap;">
+                                File Version
+                            </th>
+                            <th style="white-space: nowrap;">
+                                Product Version
+                            </th>
+                        </tr>
+                        <tr ng-repeat="dep in app.Dependencies">
+                            <td>
+                                <a class="tooltip-link" title="{{dep.CompanyName}} / {{dep.ProductName}}">{{dep.Name}}</a>
+                            </td>
+                            <td>
+                                {{dep.Version.AssemblyVersion.Major}}.{{dep.Version.AssemblyVersion.Minor}}.{{dep.Version.AssemblyVersion.Build}}.{{dep.Version.AssemblyVersion.Revision}}
+                            </td>
+                            <td>
+                                {{dep.Version.FileVersion}}
+                            </td>
+                            <td>
+                                {{dep.Version.ProductVersion | limitTo: 25}}
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="img-rounded" style="border: 1px solid #ccc; padding: 20px 20px 0 20px; margin-bottom: 20px;" ng-show="app.DatabaseConnections[0]">
+                <table class="table table-condensed table-hover">
+                    <thead>
+                        <tr>
+                            <th>
+                                Database Connections
+                            </th>
+                            <th>
+                                Provider
+                            </th>
+                            <th>
+                                Instance
+                            </th>
+                            <th>
+                                Database
+                            </th>
+                            <th>
+                                Credentials
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="dbc in app.DatabaseConnections">
+                            <td ng-show="dbc.Provider">
+                                {{dbc.Host.Name}}<span ng-show="dbc.Host.Domain">.{{dbc.Host.Domain}}<span>
+                            </td>
+                            <td ng-show="dbc.Provider">
+                                <i class="fa fa-windows" ng-show="dbc.Provider == 'MSSQL'"></i>
+                                <i class="fa fa-users" ng-show="dbc.Provider == 'LDAP'"></i>
+                                <i class="fa fa-sitemap" ng-show="dbc.Provider == 'RavenDB'"></i>
+                                {{dbc.Provider}}
+                            </td>
+                            <td ng-show="dbc.Provider">
+                                {{dbc.Instance}}
+                            </td>
+                            <td ng-show="dbc.Provider">
+                                {{dbc.Database}}
+                            </td>
+                            <td ng-show="dbc.Provider">
+                                {{dbc.Username}}
+                            </td>
+                            <td colspan="5" ng-hide="dbc.Provider">
+                                {{dbc.ConnectionString | limitTo: 100}}
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="img-rounded" style="border: 1px solid #ccc; padding: 20px 20px 0 20px; margin-bottom: 20px;" ng-show="app.EndpointConnections[0]">
+                <table class="table table-condensed table-hover" style="width: 100%;">
+                    <thead>
+                        <tr>
+                            <th>
+                                Endpoint Connections
+                            </th>
+                            <th>
+                                URI
+                            </th>
+                            <th>
+                                Credentials
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="epc in app.EndpointConnections">
+                            <td>
+                                {{epc.Host.Name}}<span ng-show="epc.Host.Domain">.{{epc.Host.Domain}}<span>
+                            </td>
+                            <td>
+                                <a href="#" title="{{epc.Address}}">{{epc.Address | limitTo: 25}}</a>
+                            </td>
+                            <td>
+                                {{epc.Username}}
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="img-rounded" style="border: 1px solid #ccc; padding: 20px 20px 0 20px; margin-bottom: 20px;" ng-controller="appHistoryController">
+            <h4>Deployment History</h4>
+            <table class="table table-condensed table-hover" style="width: 100%;">
+                <thead>
+                    <tr>
+                        <th>
+                            Host
+                        </th>
+                        <th>
+                            Environment
+                        </th>
+                        <th>
+                            Version
+                        </th>
+                        <th>
+                            Change(s)
+                        </th>
+                        <th style="text-align: right;">
+                            Record
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="item in appHistory track by $index">
+                        <td>
+                            {{item.App.Host.Name}}<span ng-show="item.App.Host.Domain">.{{item.App.Host.Domain}}<span>
+                        </td>
+                        <td>
+                            {{item.App.Environment}}
+                        </td>
+                        <td>
+                            {{item.App.MainAssembly.Version.FileVersion}}<br />
+                            {{item.App.MainAssembly.Version.ProductVersion | limitTo: 25}}
+                        </td>
+                        <td>
+                            <ul class="fa-ul">
+                                <li ng-repeat="change in item.Changes" ng-switch on="change">
+                                    <span ng-switch-when="0">
+                                        <i class="fa fa-li fa-download"></i>
+                                        Deployed
+                                    </span>
+                                    <span ng-switch-when="1">
+                                        <i class="fa fa-li fa-power-off"></i>
+                                        Removed
+                                    </span>
+                                    <span ng-switch-when="2">
+                                        <i class="fa fa-li fa-tag"></i>
+                                        Version
+                                    </span>
+                                    <span ng-switch-when="3">
+                                        <i class="fa fa-li fa-cogs"></i>
+                                        Dependencies
+                                    </span>
+                                    <span ng-switch-when="4">
+                                        <i class="fa fa-li fa-list-alt"></i>
+                                        Website
+                                    </span>
+                                    <span ng-switch-when="5">
+                                        <i class="fa fa-li fa-cog"></i>
+                                        Web Application
+                                    </span>
+                                    <span ng-switch-when="6">
+                                        <i class="fa fa-li fa-cogs"></i>
+                                        Application Pool
+                                    </span>
+                                    <span ng-switch-when="7">
+                                        <i class="fa fa-li fa-user"></i>
+                                        Application Pool Identity
+                                    </span>
+                                    <span ng-switch-when="8">
+                                        <i class="fa fa-li fa-link"></i>
+                                        Website Binding
+                                    </span>
+                                    <span ng-switch-when="9">
+                                        <i class="fa fa-li fa-cog"></i>
+                                        Windows Service
+                                    </span>
+                                    <span ng-switch-when="10">
+                                        <i class="fa fa-li fa-user"></i>
+                                        Windows Service Identity
+                                    </span>
+                                    <span ng-switch-when="11">
+                                        <i class="fa fa-li fa-sitemap"></i>
+                                        Endpoint Connections
+                                    </span>
+                                    <span ng-switch-when="12">
+                                        <i class="fa fa-li fa-sitemap"></i>
+                                        Database Connections
+                                    </span>
+                                </li>
+                            </ul>
+                        </td>
+                        <td style="text-align: right;">
+                            <a ng-href="{{gitDataRepoUrl}}/commit/{{item.Sha}}">{{item.Sha | limitTo:7}}</a>
+                            {{item.When.ticks/10000 | date:'dd/MM/yyyy HH:mm'}}
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,107 @@
+﻿<!doctype html>
+<html ng-app="zenviro">
+  <head>
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap-theme.min.css">
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css">
+    <link rel="stylesheet" href="./css/ng-table.css">
+  </head>
+  <body>
+    <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="index.html" title=">zenviro">zenviro</a>
+            </div>
+            <div class="navbar-collapse collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="./index.html">Dashboard</a>
+                    </li>
+                    <li>
+                        <a href="./index.html#/apps">Apps</a>
+                    </li>
+                    <li>
+                        <a href="./index.html#/paths">Paths</a>
+                    </li>
+                    <li class="active">
+                        <a href="./ninja.html">Bot</a>
+                    </li>
+                    <li class="dropdown">
+                        <a href="" class="dropdown-toggle" data-toggle="dropdown">History <b class="caret"></b></a>
+                        <ul class="dropdown-menu" ng-controller="envCodesController">
+                            <li ng-repeat="envCode in envCodes" class="text-right">
+                                <a href="./index.html#/environment/{{envCode.Code}}">{{envCode.Code}}</a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="container" style="margin-top: 70px;">
+        <div class="col-md-3">
+            <div class="well sidebar">
+                <ul class="nav nav-sidebar" ng-controller="appNamesController">
+                    <li class="nav-header"><strong>Discovered Apps</strong> ({{appNames.length}})</li>
+                    <li style="overflow: hidden; text-overflow: ellipsis; white-space:nowrap;" ng-repeat="app in appNames">
+                        <a title="{{app.Name}}" href="./index.html#/app/{{app.Name}}" style="margin: 0; padding: 0;">
+                            <i class="fa fa-cog" style="color:black" ng-show="app.Role == 'svc'"></i>
+                            <i class="fa fa-list-alt" style="color:black" ng-show="app.Role == 'web'"></i>
+                            {{app.Name}}
+                        </a>
+                    </li>
+                </ul>
+                <hr />
+                <ul class="nav nav-sidebar" ng-controller="hostNamesController">
+                    <li class="nav-header"><strong>Discovered Hosts</strong> ({{hostNames.length}})</li>
+                    <li style="overflow: hidden; text-overflow: ellipsis; white-space:nowrap;" ng-repeat="hostName in hostNames">
+                        <a title="{{hostName}}" href="./index.html#/host/{{hostName}}" style="margin: 0; padding: 0;">
+                            <i class="fa fa-laptop" style="color:black"></i>
+                            {{hostName}}
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="col-md-9">
+            <div class="row">
+                <img src="./img/ninja.png" alt="Ninja Bot." style="float: left; margin-right: 20px;"/>
+                <div>
+                    <h2>Bot Monitor</h2>
+                    <h3>
+                        <span id="wsStatus"></span>
+                        <a id="wsPoke" href="#" class="hidden">Poke bot</a>
+                    </h3>
+                </div>
+            </div>
+            <div class="row">
+                <div id="wsMessageContainer" class="img-rounded" style="color: greenyellow; background-color: black; padding: 4px; font-size: smaller; height: 300px; overflow-x: scroll; -webkit-overflow-scrolling: touch;">
+                </div>
+            </div>
+        </div>
+        <div>
+        </div>
+        <hr/>
+        <footer>
+            <p>&copy; Beazley Group 2014</p>
+        </footer>
+    </div>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.0-beta.3/angular.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.0-beta.3/angular-route.min.js"></script>
+    <script src="https://code.jquery.com/jquery-2.1.0.min.js"></script>
+    <script src="https://netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
+    <script src="./js/ng-table.min.js"></script>
+    <script src="https://code.jquery.com/jquery-2.1.0.min.js"></script>
+    <script src="./js/app.js"></script>
+    <script src="./js/controllers.js"></script>
+    <script src="./js/zenviro.js"></script>
+    <!--[if lt IE 9]>
+    <![endif]-->
+  </body>
+</html>

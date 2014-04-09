@@ -1,0 +1,30 @@
+<div ng-controller="jumbotronController">
+    <div class="row text-right">
+        <div ng-hide="showJumboTron()" class="text-right">
+            Banner <i class="fa fa-plus-square" ng-click="toggle()"></i>
+        </div>
+        <i ng-show="showJumboTron()" class="fa fa-minus-square" ng-click="toggle()"></i>
+    </div>
+    <div class="jumbotron" ng-show="showJumboTron()">
+        <h1>DevOps Dashboard</h1>
+        <p>
+            This app monitors deployed application versions.
+            It generates convention based lists of likely deployment locations and sends it's bot to analyse assembly versions and dependencies for your viewing pleasure.
+            The bot can only analyse network locations it has learned credentials for. Amazing!
+        </p>
+        <p><a class="btn btn-primary btn-large">Learn more &raquo;</a></p>
+    </div>
+    <div class="img-rounded" style="border: 1px solid #ccc; padding: 20px 20px 0 20px; margin-bottom: 20px;">
+        <h2>Recent Deployments</h2>
+        <div class="img-rounded" style="border: 1px solid #ccc; padding: 20px 20px 0 20px; margin-bottom: 20px;" ng-controller="envsController">
+            <ul class="fa-ul">
+                <li ng-repeat="item in appHistory track by $index">
+                    <i class="fa fa-li fa-cog" style="color:black" ng-show="item.App.Role == 'svc'"></i>
+                    <i class="fa fa-li fa-list-alt" style="color:black" ng-show="item.App.Role == 'web'"></i>
+                    <a href="./index.html#/app/{{item.App.Name}}">{{item.App.Name}}</a> v{{item.App.MainAssembly.Version.ProductVersion}}<br />
+                    To: {{item.App.Host.Name}}<span ng-show="item.App.Host.Domain">.{{item.App.Host.Domain}}<span> ({{item.App.Environment}}) at: {{item.When.ticks/10000 | date:'dd/MM/yyyy HH:mm'}} <a ng-href="{{gitDataRepoUrl}}/commit/{{item.Sha}}">{{item.Sha | limitTo:7}}</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>

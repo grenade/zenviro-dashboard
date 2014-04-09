@@ -1,0 +1,115 @@
+<div class="row">
+    <table class="table table-condensed table-hover table-responsive" ng-table="tableParams" ng-controller="webTableController">
+        <thead>
+            <tr>
+                <th style="text-align: left;">
+                    <i class="fa fa-list-alt"></i>
+                    Web Applications
+                </th>
+                <th style="text-align: right;">Environment</th>
+                <th style="text-align: right;">
+                    <i class="fa fa-laptop"></i>
+                    Host
+                </th>
+                <th style="text-align: right;">Build Date</th>
+                <th style="text-align: right;">Version</th>
+                <th style="text-align: right;"><span class="glyphicon" ng-click="toggle()" ng-class="{ 'glyphicon-chevron-left': !expandAll(), 'glyphicon-chevron-down': expandAll() }"></span></th>
+            </tr>
+        </thead>
+        <tbody ng-repeat="group in $groups">
+            <tr class="ng-table-group">
+                <td colspan="6">
+                    <a href="" ng-click="group.$hideRows = !group.$hideRows">
+                        <span class="glyphicon" ng-class="{ 'glyphicon-chevron-right': group.$hideRows, 'glyphicon-chevron-down': !group.$hideRows }"></span>
+                    </a>
+                    <em><a href="#/app/{{ group.value }}">{{ group.value }}</a></em>
+                </td>
+            </tr>
+            <tr ng-hide="group.$hideRows" ng-repeat="app in group.data">
+                <td colspan="2" sortable="Environment" data-title="'Environment'" class="text-right">
+                    {{app.Environment}}
+                </td>
+                <td sortable="Host" data-title="'Host'" class="text-right">
+                    {{app.Host.Name}}.{{app.Host.Domain}}
+                </td>
+                <td data-title="'Build Date'" class="text-right">
+                    {{app.MainAssembly.Version.CompileDate.ticks/10000 | date:'dd/MM/yyyy HH:mm'}}
+                </td>
+                <td sortable="Version" data-title="'Version'" class="text-right">
+                    {{app.MainAssembly.Version.FileVersion}}
+                </td>
+                <td data-title="'Status'" class="text-right">
+                    <a href="{{app.Url}}" ng-show="app.Url"><i class="fa fa-fw fa-list-alt text-info"></i></a>
+                    <i class="fa fa-fw fa-list-alt text-warning" ng-hide="app.Url"></i>
+                </td>
+            </tr>
+        </tbody>
+        <tfoot>
+            <tr>
+                <td colspan="6" style="text-align: right">
+                    Site Up: <i class="fa fa-fw fa-list-alt text-info"></i><br />
+                    Site Down: <i class="fa fa-fw fa-list-alt text-warning"></i>
+                </td>
+            </tr>
+        </tfoot>
+    </table>
+
+    <table class="table table-condensed table-hover table-responsive" ng-table="tableParams" ng-controller="svcTableController">
+        <thead>
+            <tr>
+                <th style="text-align: left;">
+                    <i class="fa fa-cogs"></i>
+                    Windows Services
+                </th>
+                <th style="text-align: right;">Environment</th>
+                <th style="text-align: right;">
+                    <i class="fa fa-laptop"></i>
+                    Host
+                </th>
+                <th style="text-align: right;">Build Date</th>
+                <th style="text-align: right;">Version</th>
+                <th style="text-align: right;"><span class="glyphicon" ng-click="toggle()" ng-class="{ 'glyphicon-chevron-left': !expandAll(), 'glyphicon-chevron-down': expandAll() }"></span></th>
+            </tr>
+        </thead>
+        <tbody ng-repeat="group in $groups">
+            <tr class="ng-table-group">
+                <td colspan="6">
+                    <a href="" ng-click="group.$hideRows = !group.$hideRows">
+                        <span class="glyphicon" ng-class="{ 'glyphicon-chevron-right': group.$hideRows, 'glyphicon-chevron-down': !group.$hideRows }"></span>
+                    </a>
+                    <em><a href="#/app/{{ group.value }}">{{ group.value }}</a></em>
+                </td>
+            </tr>
+            <tr ng-hide="group.$hideRows" ng-repeat="app in group.data">
+                <td colspan="2" sortable="Environment" data-title="'Environment'" class="text-right">
+                    {{app.Environment}}
+                </td>
+                <td sortable="Host" data-title="'Host'" class="text-right">
+                    {{app.Host.Name}}.{{app.Host.Domain}}
+                </td>
+                <td data-title="'Build Date'" class="text-right">
+                    {{app.MainAssembly.Version.CompileDate.ticks/10000 | date:'dd/MM/yyyy HH:mm'}}
+                </td>
+                <td sortable="Version" data-title="'Version'" class="text-right">
+                    {{app.MainAssembly.Version.FileVersion}}
+                </td>
+                <td data-title="'Status'" class="text-right">
+                    <div ng-show="app.WindowsService">
+                        <i class="fa fa-fw fa-cog text-info" ng-show="app.WindowsService.State == 'Running'"></i>
+                        <i class="fa fa-fw fa-cog text-warning" ng-hide="app.WindowsService.State == 'Running'"></i>
+                    </div>
+                    <i class="fa fa-fw fa-cog" style="color: #999999" ng-hide="app.WindowsService"></i>
+                </td>
+            </tr>
+        </tbody>
+        <tfoot>
+            <tr>
+                <td colspan="6" style="text-align: right">
+                    Service running: <i class="fa fa-fw fa-cog text-info"></i><br />
+                    Service stopped: <i class="fa fa-fw fa-cog text-warning"></i><br />
+                    State unknown: <i class="fa fa-fw fa-cog" style="color: #999999"></i>
+                </td>
+            </tr>
+        </tfoot>
+    </table>
+</div><!--/row-->
